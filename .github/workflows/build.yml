@@ -17,11 +17,11 @@ jobs:
       with:
         gradle-version: 8.5
         
-    - name: Build APK
-      run: gradle :app:assembleRelease
+    - name: Build Debug APK
+      run: gradle :app:assembleDebug
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: KakuOemModule-APK
-        path: app/build/outputs/apk/release/*.apk
+        path: app/build/outputs/apk/debug/*.apk
