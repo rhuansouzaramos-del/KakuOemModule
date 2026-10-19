@@ -12,12 +12,23 @@ public class MainHook implements IXposedHookLoadPackage {
 
         try {
             Class<?> clazz = XposedHelpers.findClass("com.android.settings.development.OemUnlockPreferenceController", lpparam.classLoader);
+            
+            // Tenta hookar os métodos de visibilidade e status
             XposedHelpers.findAndHookMethod(clazz, "isAvailable", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                     return true;
                 }
             });
-        } catch (Throwable t) { }
+            
+            XposedHelpers.findAndHookMethod(clazz, "getAvailabilityStatus", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    return 0; // 0 = AVAILABLE
+                }
+            });
+        } catch (Throwable t) {
+            // Ignora falhas se a classe não existir
+        }
     }
 }
